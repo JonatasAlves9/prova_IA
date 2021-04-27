@@ -3,9 +3,9 @@ public class App {
     private static String[] binarios;
     private static int[] decimais;
     private static double[] fitness;
-    private static double cruzamentomentoProb = 0.5;
+    private static double cruzamentomentoProb = 0.4;
     private static double mutacaoProb = 0.1;
-    private static int individuos = 300 ;
+    private static int individuos = 400;
     private static int bases = 8;
     
     public static void main(String[] args) {
@@ -61,7 +61,7 @@ public class App {
         return resultado;
     }
     
-    public static double fitness(int x) {return Math.pow(x,2) -(6*x)+10;} //x2 - 6x + 10 
+    public static double fitness(int x) {return Math.pow(x,2) -(12*x)+16;} //x2 - 12x + 16
      
     public static int paiMai() {
         double maior = fitness[0];
