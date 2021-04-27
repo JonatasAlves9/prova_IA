@@ -1,12 +1,13 @@
 public class App {
      private static double[] populacao;
     private static String[] binarios;
-    private static int[] decimais;
-    private static double[] fitness;
-    private static double cruzamentomentoProb = 0.4;
     private static double mutacaoProb = 0.1;
     private static int individuos = 400;
     private static int bases = 8;
+    private static int[] decimais;
+    private static double[] fitness;
+    private static double cruzamentomentoProb = 0.4;
+
     
     public static void main(String[] args) {
         gerarPopulacaoInicial();
@@ -45,24 +46,33 @@ public class App {
         }
     }
     
-    public static int binarioEmDecimal(String binario) {
-        char[] cadeiaa = binario.toCharArray();
-        char[] cadeia = new char[cadeiaa.length];
-        for (int i = 0; i < cadeiaa.length; i++) cadeia[cadeiaa.length-i-1] = cadeiaa[i];
-        int valor = 0, resultado = 0, aux = 0;
-        for (int i = 0; i < cadeia.length; i++) {
-            valor = aux * 2;
-            if (valor == 0) valor = 1;
-            if (cadeia[i] == '1') {
-                resultado += valor;
-            }
-            aux = valor;
-        }
-        return resultado;
-    }
-    
+
     public static double fitness(int x) {return Math.pow(x,2) -(12*x)+16;} //x2 - 12x + 16
      
+        public static int paiMen() {
+        double menor = fitness[0];
+        int posicion = 0;
+        for (int i = 1; i < fitness.length; i++) {
+            if (fitness[i] < menor){
+                menor = fitness[i];
+                posicion = i;
+            }
+        }
+        return posicion;
+    }
+    
+    public static int maeMen(double papa) {
+        double menor = 0; int posicion = 0;
+        if (papa == 0) menor = fitness[1];
+        else menor = fitness[0];
+        for (int i = 0; i < fitness.length; i++) {
+            if (fitness[i] < menor && i != papa) {
+                menor = fitness[i];
+                posicion = i;
+            }
+        }
+        return posicion;
+    }
     public static int paiMai() {
         double maior = fitness[0];
         int posicao = 0;
@@ -87,31 +97,25 @@ public class App {
         }
         return posicion;
     }
-    
-    public static int paiMen() {
-        double menor = fitness[0];
-        int posicion = 0;
-        for (int i = 1; i < fitness.length; i++) {
-            if (fitness[i] < menor){
-                menor = fitness[i];
-                posicion = i;
+
+    public static int binarioEmDecimal(String binario) {
+        char[] cadeiaa = binario.toCharArray();
+        char[] cadeia = new char[cadeiaa.length];
+        for (int i = 0; i < cadeiaa.length; i++) cadeia[cadeiaa.length-i-1] = cadeiaa[i];
+        int valor = 0, resultado = 0, aux = 0;
+        for (int i = 0; i < cadeia.length; i++) {
+            valor = aux * 2;
+            if (valor == 0) valor = 1;
+            if (cadeia[i] == '1') {
+                resultado += valor;
             }
+            aux = valor;
         }
-        return posicion;
+        return resultado;
     }
     
-    public static int maeMen(double papa) {
-        double menor = 0; int posicion = 0;
-        if (papa == 0) menor = fitness[1];
-        else menor = fitness[0];
-        for (int i = 0; i < fitness.length; i++) {
-            if (fitness[i] < menor && i != papa) {
-                menor = fitness[i];
-                posicion = i;
-            }
-        }
-        return posicion;
-    }
+    
+
     
     public static void cruzamento(int pai, int mae) {
         if (Math.random() < cruzamentomentoProb) {
