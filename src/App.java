@@ -1,5 +1,5 @@
 public class App {
-    private static double[] populacao;
+     private static double[] populacao;
     private static String[] binarios;
     private static int[] decimais;
     private static double[] fitness;
@@ -145,6 +145,5 @@ public class App {
             binarios[2] = String.valueOf(binarioMae);
             
         }
-        
     }
 }
