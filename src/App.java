@@ -1,12 +1,14 @@
 public class App {
+    private static double cruzamentomentoProb = 0.2;
+    private static double mutacaoProb = 0.1;
     private static double[] populacao;
     private static String[] binarios;
     private static int[] decimais;
     private static double[] fitness;
-    private static double cruzamentomentoProb = 0.2;
-    private static double mutacaoProb = 0.1;
     private static int individuos = 500;
     private static int bases = 8;
+
+
     
     public static void main(String[] args) {
         gerarPopulacaoInicial();
@@ -24,6 +26,8 @@ public class App {
         System.out.println("x = "+ binarios[paiMen()]);
         System.out.println("f(x) = "+fitness[paiMen()]);
     }
+
+    public static double fitness(int x) {return Math.pow(x,2) -(18*x)+24;} //x2 - 18x + 24
     
     public static void gerarPopulacaoInicial() {
         int espacos = individuos*bases, cont = 0;
@@ -61,7 +65,7 @@ public class App {
         return resultado;
     }
     
-    public static double fitness(int x) {return Math.pow(x,2) -(18*x)+24;} //x2 - 18x + 24
+
      
     public static int paiMai() {
         double maior = fitness[0];
@@ -75,31 +79,27 @@ public class App {
         return posicao;
     }
     
-    public static int maeMai(double papa) {
-        double mayor = 0; int posicion = 0;
-        if (papa == 0) mayor = fitness[1];
-        else mayor = fitness[0];
-        for (int i = 0; i < fitness.length; i++) {
-            if (fitness[i] > mayor && i != papa) {
-                mayor = fitness[i];
-                posicion = i;
+    public static void mutacao(int pai, int mae) {
+        if (Math.random() < mutacaoProb) {
+            char[] binarioPa = binarios[pai].toCharArray();
+            int a = (binarioPa.length) -1;
+            int posicion = (int) Math.round(Math.random() * a);
+            if (binarioPa[posicion] == '0') binarioPa[posicion] = '1'; 
+            else binarioPa[posicion] = '0';
+            binarios[1] = String.valueOf(binarioPa);
             }
+        if (Math.random() < mutacaoProb) {
+            char[] binarioMae = binarios[mae].toCharArray();
+            int a = (binarioMae.length) -1;
+            int posicion = (int) Math.round(Math.random() * a);
+            if (binarioMae[posicion] == '0') binarioMae[posicion] = '1'; 
+            else binarioMae[posicion] = '0';
+            binarios[2] = String.valueOf(binarioMae);
+            
         }
-        return posicion;
+        
     }
-    
-    public static int paiMen() {
-        double menor = fitness[0];
-        int posicion = 0;
-        for (int i = 1; i < fitness.length; i++) {
-            if (fitness[i] < menor){
-                menor = fitness[i];
-                posicion = i;
-            }
-        }
-        return posicion;
-    }
-    
+
     public static int maeMen(double papa) {
         double menor = 0; int posicion = 0;
         if (papa == 0) menor = fitness[1];
@@ -126,25 +126,32 @@ public class App {
         }
 
     }
-    
-    public static void mutacao(int pai, int mae) {
-        if (Math.random() < mutacaoProb) {
-            char[] binarioPa = binarios[pai].toCharArray();
-            int a = (binarioPa.length) -1;
-            int posicion = (int) Math.round(Math.random() * a);
-            if (binarioPa[posicion] == '0') binarioPa[posicion] = '1'; 
-            else binarioPa[posicion] = '0';
-            binarios[1] = String.valueOf(binarioPa);
+
+    public static int maeMai(double papa) {
+        double mayor = 0; int posicion = 0;
+        if (papa == 0) mayor = fitness[1];
+        else mayor = fitness[0];
+        for (int i = 0; i < fitness.length; i++) {
+            if (fitness[i] > mayor && i != papa) {
+                mayor = fitness[i];
+                posicion = i;
             }
-        if (Math.random() < mutacaoProb) {
-            char[] binarioMae = binarios[mae].toCharArray();
-            int a = (binarioMae.length) -1;
-            int posicion = (int) Math.round(Math.random() * a);
-            if (binarioMae[posicion] == '0') binarioMae[posicion] = '1'; 
-            else binarioMae[posicion] = '0';
-            binarios[2] = String.valueOf(binarioMae);
-            
         }
-        
+        return posicion;
     }
+    
+    public static int paiMen() {
+        double menor = fitness[0];
+        int posicion = 0;
+        for (int i = 1; i < fitness.length; i++) {
+            if (fitness[i] < menor){
+                menor = fitness[i];
+                posicion = i;
+            }
+        }
+        return posicion;
+    }
+    
+    
+
 }
