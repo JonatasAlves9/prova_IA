@@ -1,12 +1,13 @@
 public class App {
-    private static double[] populacao;
-    private static String[] binarios;
-    private static int[] decimais;
-    private static double[] fitness;
     private static double cruzamentomentoProb = 0.5;
     private static double mutacaoProb = 0.1;
     private static int individuos = 300 ;
     private static int bases = 8;
+    private static double[] populacao;
+    private static String[] binarios;
+    private static int[] decimais;
+    private static double[] fitness;
+
     
     public static void main(String[] args) {
         gerarPopulacaoInicial();
@@ -63,30 +64,7 @@ public class App {
     
     public static double fitness(int x) {return Math.pow(x,2) -(6*x)+10;} //x2 - 6x + 10 
      
-    public static int paiMai() {
-        double maior = fitness[0];
-        int posicao = 0;
-        for (int i = 1; i < fitness.length; i++) {
-            if (fitness[i] > maior){
-                maior = fitness[i];
-                posicao = i;
-            }
-        }
-        return posicao;
-    }
-    
-    public static int maeMai(double papa) {
-        double mayor = 0; int posicion = 0;
-        if (papa == 0) mayor = fitness[1];
-        else mayor = fitness[0];
-        for (int i = 0; i < fitness.length; i++) {
-            if (fitness[i] > mayor && i != papa) {
-                mayor = fitness[i];
-                posicion = i;
-            }
-        }
-        return posicion;
-    }
+
     
     public static int paiMen() {
         double menor = fitness[0];
@@ -113,6 +91,31 @@ public class App {
         return posicion;
     }
     
+    public static int paiMai() {
+        double maior = fitness[0];
+        int posicao = 0;
+        for (int i = 1; i < fitness.length; i++) {
+            if (fitness[i] > maior){
+                maior = fitness[i];
+                posicao = i;
+            }
+        }
+        return posicao;
+    }
+    
+    public static int maeMai(double papa) {
+        double mayor = 0; int posicion = 0;
+        if (papa == 0) mayor = fitness[1];
+        else mayor = fitness[0];
+        for (int i = 0; i < fitness.length; i++) {
+            if (fitness[i] > mayor && i != papa) {
+                mayor = fitness[i];
+                posicion = i;
+            }
+        }
+        return posicion;
+    }
+        
     public static void cruzamento(int pai, int mae) {
         if (Math.random() < cruzamentomentoProb) {
             char[] binarioPa = binarios[pai].toCharArray();
